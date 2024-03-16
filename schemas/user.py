@@ -1,0 +1,11 @@
+def userentity(item) -> dict:
+    return {
+        "id": str(item["_id"]),
+        "name": item["name"],
+        "email": item["email"],
+        "password": item["password"]
+    }
+
+
+def usersentity(entity) -> list:
+    return [userentity(item) for item in entity]

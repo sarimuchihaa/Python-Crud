@@ -1,0 +1,16 @@
+(1)
+(Old)
+from pymongo import MongoClient
+conn = MongoClient("mongodb://localhost:27017")
+
+# Creating new database students
+db = conn['students']
+
+# Creating new collection girls
+collection = db['boys']
+
+# Inserting document into girls collection
+collection.insert_one({"name": "Sarim", "age": 18})
+
+print("Database and collection created with one document.")
+

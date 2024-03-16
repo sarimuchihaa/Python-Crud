@@ -1,0 +1,57 @@
+(1)
+routes/user.py
+from fastapi import APIRouter
+from models.user import User
+from config.db import conn, collection
+from schemas.user import usersentity
+from bson import ObjectId
+
+user = APIRouter()
+
+
+@user.get('/')
+async def find_all_users():
+    print(collection.find())
+    print(usersentity(collection.find()))
+    return usersentity(collection.find())
+
+
+@user.get('/{id}')
+async def find_one_user(id):
+    return usersentity([collection.find_one({"_id": ObjectId(id)})])
+
+
+@user.post('/')
+async def create_user(user: User):
+    collection.insert_one(user.dict())
+    return usersentity(collection.find())
+
+
+@user.put('/{id}')
+async def update_user(id, user: User):
+    collection.find_one_and_update({"_id": ObjectId(id)}, {
+        "$set": dict(user)
+    })
+    return usersentity(collection.find_one({"_id": ObjectId(id)}))
+
+
+@user.delete('/{id}')
+async def delete_user(id, user: User):
+    return usersentity(collection.find_one_and_delete({"_id": ObjectId(id)}))
+
+
+index.py
+import uvicorn
+from fastapi import FastAPI
+from routes.user import user
+app = FastAPI()
+
+@app.get("/")
+def home():
+    return {"message": "welcome"}
+
+
+app.include_router(user)
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="localhost", port=8000)

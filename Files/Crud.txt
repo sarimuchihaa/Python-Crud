@@ -1,0 +1,20 @@
+(1)
+Crud
+pip install pymongo fastapi uvicorn
+touch index.py
+
+# Command to run on server
+# uvicorn index:app --reload
+docker-compose up -d
+sudo systemctl start docker
+sudo systemctl enable docker
+systemctl status docker
+sudo systemctl start mongodb
+sudo systemctl enable mongodb
+systemctl status mongodb
+mongodb://localhost:27017
+
+
+
+(2)
+docker run -it --rm mongo mongo --host <sarim> --port <27017> -u <username> -p <ali567> --authenticationDatabase <1234>
